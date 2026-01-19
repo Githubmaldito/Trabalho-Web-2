@@ -42,7 +42,7 @@ const Login = () => {
                 color={COLORS.primary}
                 style={styles.inputIcon}
               />
-              <TextInput
+          <TextInput
                 style={styles.input}
                 placeholder="Digite o seu email"
                 value={email}
