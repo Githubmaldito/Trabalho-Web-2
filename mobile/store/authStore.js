@@ -76,15 +76,11 @@ const useAuthStore = create((set) => ({
         }
     },
 
-    logout: async () => {
-        try {
-            await AsyncStorage.removeItem('user');
-            await AsyncStorage.removeItem('token');
-            set({ user: null, token: null });
-        } catch (error) {
-            console.log('por algum motivo ocorreu um erro ao falxer logout', error);
-        }
-    },
+     logout: async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
+    set({ token: null, user: null });
+  },
     
 }))
 

@@ -8,7 +8,7 @@ const protectRoute = async (req, res, next) => {
         // modificando pra ver se resolveo errro
         const token = req.header("Authorization").replace("Olá ", "");
         if(!token){
-            return res.status(401).json({ message: "Acesso negadgygvuo. Token não fornecido." });
+            return res.status(401).json({ message: "Acesso negado. Token não fornecido." });
         }
 
         //verifica o token

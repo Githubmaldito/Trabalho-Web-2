@@ -19,6 +19,56 @@ const Create = () => {
 
   const router = useRouter()
   const { token } = useAuthStore()
+
+  // analisar token
+  const analyzeToken = (token) => {
+  if (!token) {
+    console.log('❌ Token é null ou undefined');
+    return;
+  }
+  
+  console.log('🔍 ANALISANDO TOKEN:');
+  console.log('Comprimento total:', token.length);
+  console.log('Primeiros 50 chars:', token.substring(0, 50));
+  console.log('Últimos 50 chars:', token.substring(token.length - 50));
+  
+  // Verifica se é um JWT válido (deve ter 3 partes separadas por ponto)
+  const parts = token.split('.');
+  console.log('Número de partes:', parts.length);
+  
+  if (parts.length === 3) {
+    try {
+      // Decodifica o payload (parte do meio)
+      const payload = JSON.parse(atob(parts[1]));
+      console.log('📋 Payload decodificado:', payload);
+      
+      // Verifica expiração
+      if (payload.exp) {
+        const expDate = new Date(payload.exp * 1000);
+        const now = new Date();
+        console.log('⏰ Expira em:', expDate.toLocaleString());
+        console.log('🕐 Agora é:', now.toLocaleString());
+        console.log('⏳ Já expirou?', now > expDate);
+        
+        if (now > expDate) {
+          console.log('🚨 TOKEN EXPIRADO!');
+        }
+      }
+      
+      if (payload.iat) {
+        const iatDate = new Date(payload.iat * 1000);
+        console.log('📅 Criado em:', iatDate.toLocaleString());
+      }
+      
+      console.log('👤 User ID no token:', payload.id || payload._id || payload.userId);
+      
+    } catch (e) {
+      console.log('❌ Erro ao decodificar payload:', e.message);
+    }
+  } else {
+    console.log('❌ Token não está no formato JWT (deveria ter 3 partes)');
+  }
+};
   // console.log("SEU T|OKEN È", token)
   const pickImage = async () => {
     try {
@@ -67,6 +117,9 @@ const Create = () => {
 
     try {
       setLoading(true);
+
+      console.log("Analisando token")
+      analyzeToken()
 
       const uriParts = image.split(".")
       const fileType = uriParts[uriParts.length - 1]
