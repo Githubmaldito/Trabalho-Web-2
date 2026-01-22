@@ -1,20 +1,26 @@
-import { View, Text, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React from 'react'
-import styles from '../../assets/styles/login.styles'
+import { View, Text, Image, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
 import { useState } from 'react'
+import styles from '../../assets/styles/login.styles'
 import { Ionicons } from '@expo/vector-icons';
 // o import precisa esyar entre chcveds
 import { Link } from 'expo-router';
 import COLORS from '../../constants/colors';
+import useAuthStore from '../../store/authStore';
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const { isLoading, login} = useAuthStore();
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleLogin = () => {
-    // Lógica de login aqui
+  const handleLogin = async () => {
+    const result = await login(email, password);
+    if (result.success) {
+      console.log('Login bem-sucedido');
+    } else {
+      console.log('Erro no login:', result.message);
+      Alert.alert('Erro', result.message);
+    }
   }
 
 

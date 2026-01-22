@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.cardBackground,
     borderRadius: 16,
     padding: 20,
-    marginVertical: 16,
+    marginVertical: 6,
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -29,13 +29,13 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "700",
     color: COLORS.textPrimary,
     marginBottom: 8,
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 16,
     color: COLORS.textSecondary,
     textAlign: "center",
   },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 48,
+    height: 58,
     color: COLORS.textDark,
   },
   textArea: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
-    padding: 12,
+    padding: 18,
     height: 100,
     color: COLORS.textDark,
   },
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: COLORS.border,
-    padding: 8,
+    padding: 22,
   },
   starButton: {
     padding: 8,
