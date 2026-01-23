@@ -33,7 +33,7 @@ userSchema.pre("save", async function(next){
 
 //"salt" é um valor aleatório adicionado à senha antes de fazer o hash
 //assim, mesmo que dois usuários tenham a mesma senha, os hash serão diferentes
-    const salt = await bcrypt.genSalt(15);
+    const salt = await bcrypt.genSalt(10);
 //faz o hash da senha com o salt gerado
     this.password = await bcrypt.hash(this.password, salt);
 //continua para a próxima etapa 

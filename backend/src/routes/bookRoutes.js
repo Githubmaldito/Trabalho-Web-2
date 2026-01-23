@@ -9,24 +9,26 @@ const router = express.Router();
 router.post("/", protectRoute, async (req, res) => {
 //antes, usa protectRoute para garantir que o usuário está autenticado
     try {
-        const {user, titulo, comentario, nota, imagem} = req.body;
+        const {user, title, description, rating, image} = req.body;
 
-        if(!imagem || !titulo || !comentario || !nota){
+        if(!image || !title || !description || !rating){
             return res.status(400).json({ message: "Preencha todos os campos." });
 
         }
             //upar a imagem para o Cloudinary
-        const upload = await cloudinary.uploader.upload(imagem)
-        const imagemUrl = upload.secure_url;
+        const upload = await cloudinary.uploader.upload(image)
+        const imageUrl = upload.secure_url;
 
         //criar o novo livro
         const livro = new Livro({
             user: req.user._id,
-            titulo,
-            comentario,
-            nota,
-            imagem: imagemUrl,
+            title,
+            description,
+            rating,
+            image: imageUrl,
         });
+
+        await newLivro.save();
 
     } catch (error) {
         
@@ -100,16 +102,16 @@ router.delete("/:id", protectRoute, async (req, res) => {
 //https://res.cloudinary.com/dy3n0mzzd/image/upload/v1695768283/abc123.jpg
 
 // excluir a imagem do Cloudinary
-        if(livro.imagem && livro.imagem.includes("res.cloudinary.com")){
+        if(livro.image && livro.image.includes("res.cloudinary.com")){
             try {//extrai o public_id da URL da imagem
                 //split divide a string em partes
                 //pega a última parte da URL (nome do arquivo com extensão)
-                const publicId = livro.imagem.split("/").pop().split(".")[0];
+                const publicId = livro.image.split("/").pop().split(".")[0];
                 await cloudinary.uploader.destroy(publicId);
             } catch (deleteError) {
                 console.log("Erro ao deletar imagem do Cloudinary:", deleteError);
             } 
-        }    
+        }     
         await livro.deleteOne();
 
         res.json({ message: "Livro removido." });

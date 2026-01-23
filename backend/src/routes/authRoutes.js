@@ -88,7 +88,6 @@ router.post("/login", async (req, res) => {
         }
 
         const token = generateToken(user._id);
-
         res.json({
             token,
             user: {

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL} from '../constants/api'
+import { API_URL } from '../constants/api'
 
 //global
 const useAuthStore = create((set) => ({
@@ -42,7 +42,7 @@ const useAuthStore = create((set) => ({
             const response = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json '
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email, password })
             });
@@ -76,12 +76,12 @@ const useAuthStore = create((set) => ({
         }
     },
 
-     logout: async () => {
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("user");
-    set({ token: null, user: null });
-  },
-    
+    logout: async () => {
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("user");
+        set({ token: null, user: null });
+    },
+
 }))
 
 export default useAuthStore;

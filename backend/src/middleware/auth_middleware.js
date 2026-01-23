@@ -6,13 +6,15 @@ const protectRoute = async (req, res, next) => {
     try {
         //pega o token do header da requisição
         // modificando pra ver se resolveo errro
-        const token = req.header("Authorization").replace("Olá ", "");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        const token = req.header("Authorization").replace("Bearer ", "");
         if(!token){
             return res.status(401).json({ message: "Acesso negado. Token não fornecido." });
-        }
+        } 
 
         //verifica o token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // const decoded = jwt.verify(token, process.env.JWT_SECRET);
         
         //busca o usuário no banco de dados
         const user = await User.findById(decoded.id).select("-password");
