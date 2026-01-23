@@ -28,10 +28,12 @@ router.post("/", protectRoute, async (req, res) => {
             image: imageUrl,
         });
 
-        await newLivro.save();
+        livro.save();
+        res.status(201).json(livro);
 
     } catch (error) {
-        
+        console.log("Algo deu errado ao criar o livro")
+        res.status(500).json({message: "o erro ocorreu aqui"})
     }
 });
 
@@ -111,7 +113,7 @@ router.delete("/:id", protectRoute, async (req, res) => {
             } catch (deleteError) {
                 console.log("Erro ao deletar imagem do Cloudinary:", deleteError);
             } 
-        }     
+        }    
         await livro.deleteOne();
 
         res.json({ message: "Livro removido." });

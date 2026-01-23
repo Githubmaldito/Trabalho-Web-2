@@ -90,7 +90,8 @@ const Create = () => {
         body: JSON.stringify({
           title,
           description,
-          rating: rating.toString(),
+          // rating: rating.toString(),
+          rating: Number(rating),
           image: imageDataUrl,
         }),
       })
@@ -104,7 +105,7 @@ const Create = () => {
       setRating(1)
       setImage(null)
       setImageBase64(null)
-      router.push("/")
+      router.push("/") 
     } catch (error) {
       console.error("Erro ao poster", error)
       Alert.alert("Erro", error.message || 'Algo deu errado ao criar seu Post')
@@ -112,10 +113,7 @@ const Create = () => {
       setLoading(false)
     }
   }
-
-  
-  const avaliar = () => {
-    let stars = [];
+  const avaliar = () => {    let stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
         <TouchableOpacity key={i} onPress={() => setRating(i)}>
@@ -129,7 +127,6 @@ const Create = () => {
     }
     return stars;
   }
-
   return (
     // isso faz com que o teclado nao sobreponha o texto
     <KeyboardAvoidingView

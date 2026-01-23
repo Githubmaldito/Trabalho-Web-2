@@ -2,15 +2,15 @@ import mongoose from 'mongoose';
 
 const livroSchema = new mongoose.Schema({
 
-    titulo: {
+    title: {
         type: String,
         required: true,
     },
-    comentario:{
+    description:{
         type: String,
         required: true,
     },
-    nota:{
+    rating:{
         type: Number,
         required: true,
         min: 1,
@@ -21,7 +21,7 @@ const livroSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    imagem:{
+    image:{
         type: String,
         required: true,
     }
