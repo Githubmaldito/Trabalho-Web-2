@@ -131,9 +131,9 @@ export default function Home() {
   const renderItem = ({ item }) => {
     if (!item) return null;
 
-    const user = item.user || {};
+    const user = item.user;
     const username = user.username;
-    const profileImage = user.profileImage || "https://via.placeholder.com/50";
+    const profileImage = user.profileImage;
     const imageUrl = item.image;
     const title = item.title;
     const description = item.description;

@@ -49,11 +49,7 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     marginBottom: 4,
   },
-  memberSince: {
-    fontSize: 12,
-    color: COLORS.textSecondary,
-  },
-  logoutButton: {
+  logout: {
     backgroundColor: COLORS.primary,
     borderRadius: 12,
     padding: 12,
@@ -82,10 +78,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     color: COLORS.textPrimary,
-  },
-  booksCount: {
-    fontSize: 14,
-    color: COLORS.textSecondary,
   },
   booksList: {
     paddingBottom: 20,
@@ -152,6 +144,65 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
+  modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 20,
+},
+modalContainer: {
+  backgroundColor: 'white',
+  borderRadius: 16,
+  padding: 24,
+  width: '100%',
+  maxWidth: 320,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 4,
+  elevation: 5,
+},
+modalTitle: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  marginBottom: 12,
+  color: COLORS.textPrimary,
+},
+modalText: {
+  fontSize: 16,
+  color: COLORS.textSecondary,
+  marginBottom: 24,
+  lineHeight: 22,
+},
+modalButtons: {
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  gap: 12,
+},
+modalButton: {
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 8,
+  minWidth: 80,
+  alignItems: 'center',
+},
+cancelButton: {
+  backgroundColor: COLORS.border || '#f0f0f0',
+},
+cancelButtonText: {
+  color: COLORS.textSecondary,
+  fontWeight: '600',
+  fontSize: 16,
+},
+confirmButton: {
+  backgroundColor: '#ff3b30', // Vermelho para ação destrutiva
+},
+confirmButtonText: {
+  color: 'white',
+  fontWeight: '600',
+  fontSize: 16,
+},
   addButton: {
     backgroundColor: COLORS.primary,
     borderRadius: 12,
