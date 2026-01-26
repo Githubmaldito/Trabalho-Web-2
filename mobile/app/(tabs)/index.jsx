@@ -73,7 +73,7 @@ export default function Home() {
 
       const booksData = data.livros || [];
 
-      // Remover livros duplicados usando o código modelo
+      // Remover livro duplicados
       const uniqueBooks = refresh || pageNum === 1
         ? booksData
         : Array.from(new Set([...books, ...booksData].map((book) => book._id)))
@@ -99,7 +99,7 @@ export default function Home() {
     fetchBooks();
   }, []);
 
-  const handleLoadMore = async () => {
+  const loadMore = async () => {
     if (hasMore && !loading && !refreshing) {
       await fetchBooks(page + 1);
     }
@@ -134,7 +134,7 @@ export default function Home() {
     const user = item.user || {};
     const username = user.username;
     const profileImage = user.profileImage || "https://via.placeholder.com/50";
-    const imageUrl = item.image || "https://via.placeholder.com/300";
+    const imageUrl = item.image;
     const title = item.title;
     const description = item.description;
     const rating = item.rating;
@@ -217,7 +217,7 @@ export default function Home() {
             tintColor={COLORS.primary}
           />
         }
-        onEndReached={handleLoadMore}
+        onEndReached={loadMore}
         onEndReachedThreshold={0.1}
         ListHeaderComponent={
           <View style={styles.header}>

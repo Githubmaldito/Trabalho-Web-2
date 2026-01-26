@@ -40,13 +40,14 @@ router.post("/register", async (req, res) => {
         }
 
         //imagem de perfil usando o serviço DiceBear
-        const imgPerfil = `https://api.dicebear.com/9.x/personas/svg?seed=${username}&scale=90&backgroundColor=lightBlue,lightGreen,lightYellow,lightGray,lightPink`;
+        // const imgPerfil = `https://api.dicebear.com/9.x/personas/svg?seed=${username}&scale=90&backgroundColor=lightBlue,lightGreen,lightYellow,lightGray,lightPink`;
+        const profileImage = `https://api.dicebear.com/9.x/icons/svg?seed=${username}`;
         
         const user = new User({
             username,
             email,
             password,
-            profileImage: imgPerfil,
+            profileImage,
         });
 
       await user.save();
@@ -88,6 +89,7 @@ router.post("/login", async (req, res) => {
         }
 
         const token = generateToken(user._id);
+
         res.json({
             token,
             user: {
