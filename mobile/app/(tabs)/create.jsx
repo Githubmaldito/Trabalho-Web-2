@@ -122,15 +122,9 @@ const handleSubmit = async () => {
 
   try {
     setLoading(true);
-
-    console.log("=== INICIANDO POSTAGEM DEBUG ===");
-    console.log("1. Token existe?", !!token);
-    console.log("2. Token (20 primeiros):", token ? token.substring(0, 20) + "..." : "null");
     
     // Reduzir o tamanho da imagem para teste
     const smallImageBase64 = imageBase64.substring(0, 50000); // Primeiros 50kb apenas
-    console.log("3. Imagem reduzida para:", smallImageBase64.length, "caracteres");
-    
     const imageDataUrl = `data:image/jpeg;base64,${smallImageBase64}`;
     
     const payload = {
@@ -140,12 +134,12 @@ const handleSubmit = async () => {
       image: imageDataUrl,
     };
     
-    console.log("4. Payload (sem imagem):", {
-      title,
-      description,
-      rating: Number(rating),
-      imageLength: imageDataUrl.length
-    });
+    // console.log("4. Payload (sem imagem):", {
+    //   title,
+    //   description,
+    //   rating: Number(rating),
+    //   imageLength: imageDataUrl.length
+    // });
     
     console.log("5. URL:", `${API_URL}/books`);
     
@@ -216,14 +210,13 @@ const handleSubmit = async () => {
     // Navegação com delay
     setTimeout(() => {
       router.push("/(tabs)");
-    }, 1500);
+    }, 500);
     
   } catch (error) {
     console.error("🔥 ERRO DETALHADO NO CATCH:");
     console.error("Mensagem:", error.message);
     console.error("Stack:", error.stack);
     
-    // Mensagens mais amigáveis
     let userMessage = error.message;
     
     if (error.message.includes('JSON')) {

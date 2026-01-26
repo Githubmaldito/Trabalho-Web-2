@@ -14,11 +14,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: COLORS.background,
   },
+  // booksCount: {
+  //   fontSize: 18,
+  //   color: COLORS.primary
+  // },
   profileHeader: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.cardBackground,
     borderRadius: 16,
+    marginVertical: 12,
     padding: 16,
     marginBottom: 16,
     shadowColor: COLORS.black,
@@ -53,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     borderRadius: 12,
     padding: 12,
+    marginVertical: 12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -65,8 +71,8 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: COLORS.white,
+    fontSize: 19,
     fontWeight: "600",
-    marginLeft: 8,
   },
   booksHeader: {
     flexDirection: "row",
@@ -76,6 +82,7 @@ const styles = StyleSheet.create({
   },
   booksTitle: {
     fontSize: 18,
+    marginBottom:  18,
     fontWeight: "700",
     color: COLORS.textPrimary,
   },
@@ -87,12 +94,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.cardBackground,
     borderRadius: 12,
     padding: 12,
-    marginBottom: 12,
+    marginBottom: 14,
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 3,
     borderWidth: 1,
     borderColor: COLORS.border,
   },

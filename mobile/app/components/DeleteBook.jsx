@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import useAuthStore from '../../store/authStore'
 import styles from '../../assets/styles/perfil.styles'
 
-const Logout = () => {
-  const { logout } = useAuthStore()
+const Delete = () => {
+  const { Delete } = useAuthStore()
   const [modalVisible, setModalVisible] = useState(false)
 
   return (
     <>
-      <TouchableOpacity style={styles.logout} onPress={() => setModalVisible(true)}>
-        <Text style={styles.logoutText}>Sair</Text>
+      <TouchableOpacity style={styles.Delete} onPress={() => setModalVisible(true)}>
+        <Text style={styles.DeleteText}>Sair</Text>
       </TouchableOpacity>
 
       <Modal
@@ -39,7 +39,7 @@ const Logout = () => {
                 style={[styles.modalButton, styles.confirmButton]}
                 onPress={() => {
                   setModalVisible(false)
-                  logout()
+                  Delete()
                 }}
               >
                 <Text style={styles.confirmButtonText}>Sair</Text>
@@ -52,4 +52,4 @@ const Logout = () => {
   )
 }
 
-export default Logout
+export default Delete

@@ -60,7 +60,7 @@ export default function Home() {
         setLoading(true);
       }
 
-      const response = await fetch(`${API_URL}/books?page=${pageNum}&limit=2`, {
+      const response = await fetch(`${API_URL}/books?page=${pageNum}&limit=4`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
