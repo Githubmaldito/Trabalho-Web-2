@@ -60,59 +60,186 @@ const Create = () => {
       Alert.alert('Erro', 'Ocorreu um erro ao selecionar a imagem.');
     }
   }
-  const handleSubmit = async () => {
-    if (!title || !description || !imageBase64 || !rating) {
-      Alert.alert('Erro', "Preencha todos os campos")
-      return;
-    }
+  // const handleSubmit = async () => {
+  //   if (!title || !description || !imageBase64 || !rating) {
+  //     Alert.alert('Erro', "Preencha todos os campos")
+  //     return;
+  //   }
 
-    try {
-      setLoading(true);
+  //   try {
+  //     setLoading(true);
 
-      console.log("Analisando token")
-      // analyzeToken()
+  //     console.log("Analisando token")
+  //     // analyzeToken()
 
-      const uriParts = image.split(".")
-      const fileType = uriParts[uriParts.length - 1]
-      // se nao conseguir o type, é um jpeg default
-      const imageType = fileType ? `image/${fileType.toLowerCase()}` : "image.jpeg"
+  //     const uriParts = image.split(".")
+  //     const fileType = uriParts[uriParts.length - 1]
+  //     // se nao conseguir o type, é um jpeg default
+  //     const imageType = fileType ? `image/${fileType.toLowerCase()}` : "image.jpeg"
 
-      const imageDataUrl = `data:${imageType};base64,${imageBase64}`
+  //     const imageDataUrl = `data:${imageType};base64,${imageBase64}`
 
-      console.log('🔍 DEBUG - Token completo:', token);
+  //     console.log('🔍 DEBUG - Token completo:', token);
      
-      const response = await fetch(`${API_URL}/books`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          // rating: rating.toString(),
-          rating: Number(rating),
-          image: imageDataUrl,
-        }),
-      })
+  //     const response = await fetch(`${API_URL}/books`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         title,
+  //         description,
+  //         // rating: rating.toString(),
+  //         rating: Number(rating),
+  //         image: imageDataUrl,
+  //       }),
+  //     })
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Algum erro ocorreu")
+  //     const data = await response.json();
+  //     if (!response.ok) throw new Error(data.message || "Algum erro ocorreu")
 
-      Alert.alert("Sua recomendação foi postada")
-      setTitle("")
-      setDescription("")
-      setRating(1)
-      setImage(null)
-      setImageBase64(null)
-      router.push("/") 
-    } catch (error) {
-      console.error("Erro ao poster", error)
-      Alert.alert("Erro", error.message || 'Algo deu errado ao criar seu Post')
-    } finally {
-      setLoading(false)
-    }
+  //     Alert.alert("Sua recomendação foi postada")
+  //     setTitle("")
+  //     setDescription("")
+  //     setRating(1)
+  //     setImage(null)
+  //     setImageBase64(null)
+  //     router.push("/") 
+  //   } catch (error) {
+  //     console.error("Erro ao poster", error)
+  //     Alert.alert("Erro", error.message || 'Algo deu errado ao criar seu Post')
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
+
+const handleSubmit = async () => {
+  if (!title || !description || !imageBase64 || !rating) {
+    Alert.alert('Erro', "Preencha todos os campos");
+    return;
   }
+
+  try {
+    setLoading(true);
+
+    console.log("=== INICIANDO POSTAGEM DEBUG ===");
+    console.log("1. Token existe?", !!token);
+    console.log("2. Token (20 primeiros):", token ? token.substring(0, 20) + "..." : "null");
+    
+    // Reduzir o tamanho da imagem para teste
+    const smallImageBase64 = imageBase64.substring(0, 50000); // Primeiros 50kb apenas
+    console.log("3. Imagem reduzida para:", smallImageBase64.length, "caracteres");
+    
+    const imageDataUrl = `data:image/jpeg;base64,${smallImageBase64}`;
+    
+    const payload = {
+      title,
+      description,
+      rating: Number(rating),
+      image: imageDataUrl,
+    };
+    
+    console.log("4. Payload (sem imagem):", {
+      title,
+      description,
+      rating: Number(rating),
+      imageLength: imageDataUrl.length
+    });
+    
+    console.log("5. URL:", `${API_URL}/books`);
+    
+    // FAZ A REQUISIÇÃO
+    const response = await fetch(`${API_URL}/books`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    console.log("6. Status:", response.status);
+    console.log("7. Status Text:", response.statusText);
+    
+    // PEGA COMO TEXTO PRIMEIRO
+    const responseText = await response.text();
+    console.log("8. Resposta COMPLETA (texto):", responseText);
+    
+    // Verifica se está vazia
+    if (!responseText || responseText.trim() === '') {
+      console.error("❌ Resposta VAZIA do servidor!");
+      throw new Error("O servidor não retornou resposta. Pode ser erro no backend.");
+    }
+    
+    // Verifica se é HTML (erro do servidor)
+    if (responseText.includes('<!DOCTYPE') || responseText.includes('<html')) {
+      console.error("❌ Servidor retornou HTML em vez de JSON");
+      const errorMatch = responseText.match(/<title>(.*?)<\/title>/i) || 
+                         responseText.match(/<h1>(.*?)<\/h1>/i);
+      const errorMsg = errorMatch ? errorMatch[1] : "Erro no servidor";
+      throw new Error(errorMsg);
+    }
+    
+    // Tenta parsear JSON
+    let data;
+    try {
+      data = JSON.parse(responseText);
+      console.log("9. JSON parseado com sucesso:", data);
+    } catch (parseError) {
+      console.error("❌ ERRO AO PARSEAR JSON:", parseError.message);
+      console.error("❌ Resposta que falhou:", responseText.substring(0, 200));
+      throw new Error(`Resposta inválida do servidor: ${responseText.substring(0, 50)}`);
+    }
+    
+    // // Verifica se a resposta é OK
+    // if (!response.ok) {
+    //   console.error("10. Resposta não OK. Erro:", data);
+    //   throw new Error(data.message || data.error || `Erro ${response.status}`);
+    // }
+    
+    // // Verifica se tem estrutura esperada
+    // if (!data.success && !data.message) {
+    //   console.warn("⚠️ Resposta sem estrutura padrão:", data);
+    // }
+
+    console.log("✅ POST BEM-SUCEDIDO!");
+    Alert.alert("Sucesso!", "A sua recomendação foi postada.");
+    
+    // Reset
+    setTitle("");
+    setDescription("");
+    setRating(0);
+    setImage(null);
+    setImageBase64(null);
+    
+    // Navegação com delay
+    setTimeout(() => {
+      router.push("/(tabs)");
+    }, 1500);
+    
+  } catch (error) {
+    console.error("🔥 ERRO DETALHADO NO CATCH:");
+    console.error("Mensagem:", error.message);
+    console.error("Stack:", error.stack);
+    
+    // Mensagens mais amigáveis
+    let userMessage = error.message;
+    
+    if (error.message.includes('JSON')) {
+      userMessage = "Erro na resposta do servidor. Tente novamente.";
+    } else if (error.message.includes('Network')) {
+      userMessage = "Erro de conexão. Verifique sua internet.";
+    } else if (error.message.includes('token') || error.message.includes('auth')) {
+      userMessage = "Problema de autenticação. Faça login novamente.";
+    }
+    
+    Alert.alert("❌ Erro", userMessage);
+  } finally {
+    setLoading(false);
+  }
+};
+
   const avaliar = () => {    let stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
@@ -221,5 +348,4 @@ const Create = () => {
     </KeyboardAvoidingView>
   )
 }
-
 export default Create

@@ -17,12 +17,11 @@ const Login = () => {
     const result = await login(email, password);
     if (result.success) {
       console.log('Login bem-sucedido');
-    } else {
+    } else { 
       console.log('Erro no login:', result.message);
       Alert.alert('Erro', result.message);
     }
   }
-
 
   return (
     <View style={styles.container}>
