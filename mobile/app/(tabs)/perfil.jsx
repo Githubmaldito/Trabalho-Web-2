@@ -47,6 +47,9 @@ const Perfil = () => {
     fetchData()
   }, [])
 
+  if (isLoading) {
+  
+  }
   const deleteBook = async(bookId) => {
     try {
       const response = await fetch(`${API_URL}/books/${bookId}`, {
@@ -85,8 +88,6 @@ const Perfil = () => {
       </TouchableOpacity>
     </View>
   )
-
-
 
   const renderStars = (rating) => {
     const stars = []

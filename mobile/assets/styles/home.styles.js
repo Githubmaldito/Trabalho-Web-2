@@ -1,7 +1,12 @@
 import { StyleSheet } from "react-native";
 import COLORS from "../../constants/colors";
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
 
 const styles = StyleSheet.create({
+
+
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
@@ -22,7 +27,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 24,
-    fontFamily: "JetBrainsMono-Medium",
+    fontFamily: "",
     letterSpacing: 0.5,
     color: COLORS.primary,
     marginBottom: 8,

@@ -13,6 +13,8 @@ import styles from "../../assets/styles/home.styles";
 import { API_URL } from "../../constants/api";
 import { Ionicons } from "@expo/vector-icons";
 import COLORS from "../../constants/colors";
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -51,6 +53,10 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [expandedBooks, setExpandedBooks] = useState({});
+
+  const [loaded, error] = useFonts({
+    'JetBrainsMono-Medium': require('../../assets/fonts/JetBrainsMono-Medium.ttf')
+  })
 
   const fetchBooks = async (pageNum = 1, refresh = false) => {
     try {
@@ -98,6 +104,16 @@ export default function Home() {
   useEffect(() => {
     fetchBooks();
   }, []);
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
 
   const loadMore = async () => {
     if (hasMore && !loading && !refreshing) {
@@ -208,7 +224,7 @@ export default function Home() {
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
-//recarregr a pagina
+        //recarregr a pagina
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -221,8 +237,14 @@ export default function Home() {
         onEndReachedThreshold={0.1}
         ListHeaderComponent={
           <View style={styles.header}>
-  {/* pensar em um tituilo */}
-            <Text style={styles.headerTitle}>Placeholder</Text>
+            {/* pensar em um tituilo */}
+            <Text style={{
+              fontSize: 24,
+              fontFamily: "JetBrainsMono-Medium",
+              letterSpacing: 0.5,
+              color: COLORS.primary,
+              marginBottom: 8,
+            }}>LeiaIsso 📖</Text>
             <Text style={styles.headerSubtitle}>Descubra ótimas leituras da comunidade 👇</Text>
           </View>
         }
